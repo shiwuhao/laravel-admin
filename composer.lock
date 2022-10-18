@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7a61820bbdb76af76e62859fcc6fd4d",
+    "content-hash": "45504f696de76be7e146a761f1df261a",
     "packages": [
         {
             "name": "brick/math",
@@ -2835,6 +2835,57 @@
                 }
             ],
             "time": "2022-09-16T03:22:46+00:00"
+        },
+        {
+            "name": "shiwuhao/laravel-rbac",
+            "version": "v1.2.1-beta.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shiwuhao/laravel-rbac.git",
+                "reference": "a7becb71a20d2b7fe459976a23a36e9985088897"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shiwuhao/laravel-rbac/zipball/a7becb71a20d2b7fe459976a23a36e9985088897",
+                "reference": "a7becb71a20d2b7fe459976a23a36e9985088897",
+                "shasum": ""
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Shiwuhao\\Rbac\\RbacServiceProvider"
+                    ],
+                    "aliases": {
+                        "Rbac": "Shiwuhao\\Rbac\\Rbac"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Shiwuhao\\Rbac\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "shiwuhao",
+                    "email": "admin@shiwuhao.com"
+                }
+            ],
+            "description": "A laravel Role-Based Access Control package",
+            "support": {
+                "issues": "https://github.com/shiwuhao/laravel-rbac/issues",
+                "source": "https://github.com/shiwuhao/laravel-rbac/tree/v1.2.1-beta.1"
+            },
+            "time": "2022-01-20T09:01:23+00:00"
         },
         {
             "name": "symfony/console",
@@ -7879,7 +7930,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "shiwuhao/laravel-rbac": 10
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
