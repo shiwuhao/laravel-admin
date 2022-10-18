@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Permission extends \Shiwuhao\Rbac\Models\Permission
 {
@@ -16,7 +16,7 @@ class Permission extends \Shiwuhao\Rbac\Models\Permission
 
     const TYPE_LABEL = [
         self::TYPE_MENU => '菜单',
-        self::TYPE_ACTION => '操作',
+        self::TYPE_ACTION => '动作',
     ];
 
     /**
@@ -26,15 +26,8 @@ class Permission extends \Shiwuhao\Rbac\Models\Permission
         'pid', 'type', 'name', 'title', 'method', 'url', 'icon',
     ];
 
-    /**
-     * @var string[]
-     */
-    protected $casts = [
-        'created_at' => 'datetime:Y-m-d H:i:s',
-    ];
-
     protected $appends = [
-        'type_label'
+        'permissible_type_label'
     ];
 
     /**
@@ -45,21 +38,28 @@ class Permission extends \Shiwuhao\Rbac\Models\Permission
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @var string[]
      */
-    public function children()
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s',
+    ];
+
+    /**
+     * @return HasMany
+     */
+    public function children(): HasMany
     {
         return $this->hasMany(Permission::class, 'pid', 'id');
     }
 
     /**
      * type_label
-     * @return string
+     * @return Attribute
      */
-    protected function typeLabel(): Attribute|string
+    protected function permissibleTypeLabel(): Attribute
     {
         return new Attribute(
-            get: fn() => self::TYPE_LABEL[$this->type] ?? ''
+            get: fn() => self::TYPE_LABEL[$this->permissible_type] ?? ''
         );
     }
 

@@ -24,15 +24,17 @@ class LoginController extends BackendController
 
     public function loginByPassword(Request $request)
     {
-        $this->validate($request, [
-            'username' => 'required',
-            'password' => 'required',
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
         ]);
 
-        $user = User::where('username', $request->get('username'))->first();
-        if (empty($user) || !Hash::check($request->password, $user->password)) {
+
+        if (!Auth::attempt($credentials)) {
             throw new ApiException('用户名或密码错误');
         }
+
+        $user = Auth::user();
 
         if ($user->isDisabled()) {
             throw new ApiException('账户状态异常，请联系管理员');

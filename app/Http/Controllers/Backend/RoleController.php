@@ -15,9 +15,9 @@ class RoleController extends Controller
      * @param Request $request
      * @return AnonymousResourceCollection
      */
-    public function index(Request $request)
+    public function index(Request $request): AnonymousResourceCollection
     {
-        $roles = Role::ofSearch($request->all())->latest('id')->paginate();
+        $roles = Role::ofSearch($request->all())->oldest('id')->paginate();
 
         return ApiResource::collection($roles);
     }
@@ -31,7 +31,7 @@ class RoleController extends Controller
         $role = new Role($request->all());
         $role->save();
 
-        $this->syncPermissions($role, $request);
+        $role->permissions()->sync($request->get('permission_ids'));
 
         return ApiResource::make($role);
     }
@@ -55,8 +55,7 @@ class RoleController extends Controller
     {
         $role->fill($request->all());
         $role->save();
-
-        $this->syncPermissions($role, $request);
+        $role->permissions()->sync($request->permission_ids);
 
         return ApiResource::make($role);
     }
@@ -73,17 +72,5 @@ class RoleController extends Controller
         }
 
         return ApiResource::make($role);
-    }
-
-    /**
-     * 同步权限节点
-     * @param Role $role
-     * @param Request $request
-     */
-    protected function syncPermissions(Role $role, Request $request)
-    {
-        if (!empty($request->permission_ids)) {
-            $role->permissions()->sync($request->permission_ids);
-        }
     }
 }

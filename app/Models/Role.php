@@ -13,7 +13,7 @@ class Role extends \Shiwuhao\Rbac\Models\Role
     use SoftDeletes;
 
     // 超级管理员标识
-    const ADMINISTRATOR = 'administrator';
+    const ADMINISTRATOR = 'Administrator';
 
     /**
      * @var string[]
