@@ -11,13 +11,6 @@ use Illuminate\Support\Facades\Artisan;
 
 class ActionController extends Controller
 {
-    public function all(Request $request)
-    {
-        $actions = Action::ofSearch($request->all())->get();
-
-        return ApiResource::collection($actions);
-    }
-
     /**
      * @param Request $request
      * @return AnonymousResourceCollection

@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ *
+ */
 class Action extends \Shiwuhao\Rbac\Models\Action
 {
     use HasFactory;
@@ -22,6 +25,13 @@ class Action extends \Shiwuhao\Rbac\Models\Action
      */
     protected $hidden = [
         'updated_at'
+    ];
+
+    /**
+     * @var string[]
+     */
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i',
     ];
 
     /**

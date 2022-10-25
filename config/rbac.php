@@ -38,7 +38,10 @@ return [
 
     // controller labels 替换
     'controller_label_replace' => [
-//        \App\Http\Controllers\Backend\UserController::class => '用户',
+        \App\Http\Controllers\Backend\UserController::class => '用户',
+        \App\Http\Controllers\Backend\PermissionController::class => '权限',
+        \App\Http\Controllers\Backend\RoleController::class => '角色',
+        \App\Http\Controllers\Backend\MenuController::class => '菜单',
     ],
 
     // 指定路径前缀
@@ -46,6 +49,7 @@ return [
         '/backend/users',
         '/backend/roles',
         '/backend/permissions',
+        '/backend/menus',
     ],
 
     // 排除路径

@@ -25,13 +25,6 @@ class Role extends \Shiwuhao\Rbac\Models\Role
     /**
      * @var string[]
      */
-    protected $hidden = [
-        'updated_at'
-    ];
-
-    /**
-     * @var string[]
-     */
     protected $appends = [
         'status_label'
     ];
@@ -41,6 +34,7 @@ class Role extends \Shiwuhao\Rbac\Models\Role
      */
     protected $casts = [
         'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
 
     /**
@@ -50,7 +44,7 @@ class Role extends \Shiwuhao\Rbac\Models\Role
     protected function statusLabel(): Attribute
     {
         return new Attribute(
-            get: fn($value) => $this->status ? '正常' : '禁用',
+            get: fn($value) => $this->status ? '启用' : '禁用',
         );
     }
 
