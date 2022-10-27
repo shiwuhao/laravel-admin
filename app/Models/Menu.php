@@ -31,7 +31,7 @@ class Menu extends Model
     const TYPE_LABEL = [
         self::TYPE_ROUTE => '路由',
         self::TYPE_LINK => '外链',
-        self::TYPE_IFRAME => '内嵌',
+        self::TYPE_IFRAME => 'iframe',
     ];
 
     /**
