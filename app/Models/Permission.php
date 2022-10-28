@@ -7,6 +7,35 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * App\Models\Permission
+ *
+ * @property int $id
+ * @property int $pid 父级ID
+ * @property string $permissible_type
+ * @property int $permissible_id
+ * @property int $sort 排序
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|Permission[] $children
+ * @property-read int|null $children_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $permissible
+ * @property-read \Illuminate\Database\Eloquent\Collection|Permission[] $roles
+ * @property-read int|null $roles_count
+ * @method static Builder|Permission newModelQuery()
+ * @method static Builder|Permission newQuery()
+ * @method static Builder|Permission ofParent()
+ * @method static Builder|Permission ofSearch(array $params = [])
+ * @method static Builder|Permission query()
+ * @method static Builder|Permission whereCreatedAt($value)
+ * @method static Builder|Permission whereId($value)
+ * @method static Builder|Permission wherePermissibleId($value)
+ * @method static Builder|Permission wherePermissibleType($value)
+ * @method static Builder|Permission wherePid($value)
+ * @method static Builder|Permission whereSort($value)
+ * @method static Builder|Permission whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Permission extends \Shiwuhao\Rbac\Models\Permission
 {
     use HasFactory;

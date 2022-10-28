@@ -24,7 +24,8 @@ return new class extends Migration {
             $table->integer('sort')->default(0)->comment('排序');
             $table->boolean('keepalive')->default(true)->comment('是否缓存');
             $table->boolean('affix')->default(false)->comment('是否固定标签栏');
-            $table->boolean('hide_menu')->default(false)->comment('是否显示菜单');
+            $table->boolean('hide_menu')->default(false)->comment('隐藏菜单');
+            $table->string('permission', 50)->default('')->comment('权限标识');
             $table->boolean('status')->default(true)->comment('状态');
             $table->softDeletes();
             $table->timestamps();

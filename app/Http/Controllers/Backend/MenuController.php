@@ -16,7 +16,7 @@ class MenuController extends Controller
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        $menus = Menu::ofSearch($request->all())->ofParent()->oldest('id')->with('children')->paginate();
+        $menus = Menu::ofSearch($request->all())->ofParent()->with('children')->latest('sort')->oldest('id')->paginate();
 
         return ApiResource::collection($menus);
     }
