@@ -68,30 +68,22 @@ class Menu extends Model
 
     const TYPE_DIR = 'dir';
     const TYPE_MENU = 'menu';
-    const TYPE_GROUP = 'group';
+    const TYPE_BUTTON = 'button';
 
-    /**
-     * 菜单类型 路由
-     */
-    const TYPE_ROUTE = 'route';
-    /**
-     * 菜单类型 外链
-     */
-    const TYPE_LINK = 'link';
-    /**
-     * 菜单类型 内嵌
-     */
-    const TYPE_IFRAME = 'iframe';
-
-    /**
-     * type_label
-     */
     const TYPE_LABEL = [
         self::TYPE_DIR => '目录',
         self::TYPE_MENU => '菜单',
-        self::TYPE_ROUTE => '路由',
-        self::TYPE_LINK => '外链',
-        self::TYPE_IFRAME => 'iframe',
+        self::TYPE_BUTTON => '按钮',
+    ];
+
+    const RULE_TAB = 'tab';
+    const RULE_LINK = 'link';
+    const RULE_IFRAME = 'iframe';
+
+    const RULE_LABEL = [
+        self::RULE_TAB => '菜单项',
+        self::RULE_LINK => '外链',
+        self::RULE_IFRAME => 'Iframe',
     ];
 
     /**
@@ -99,11 +91,13 @@ class Menu extends Model
      */
     protected $fillable = [
         'pid',
-        'name',
+        'type',
+        'rule',
         'label',
+        'name',
         'path',
         'component',
-        'type',
+        'link',
         'icon',
         'sort',
         'keepalive',
@@ -123,7 +117,11 @@ class Menu extends Model
      * @var string[]
      */
     protected $appends = [
-        'type_label', 'alias', 'meta', 'status_label',
+        'type_label',
+        'rule_label',
+        'status_label',
+        'alias',
+        'meta',
     ];
 
     /**
@@ -181,7 +179,18 @@ class Menu extends Model
     public function typeLabel(): Attribute
     {
         return new Attribute(
-            get: fn() => self::TYPE_LABEL[$this->type] ?? '',
+            get: fn() => self::TYPE_LABEL[$this->type] ?? '--',
+        );
+    }
+
+    /**
+     * type_label
+     * @return Attribute
+     */
+    public function ruleLabel(): Attribute
+    {
+        return new Attribute(
+            get: fn() => self::RULE_LABEL[$this->rule] ?? '--',
         );
     }
 

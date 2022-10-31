@@ -18,9 +18,11 @@ return new class extends Migration {
             $table->string('name', 50)->default('')->comment('路由别名')->unique();
             $table->string('label', 50)->default('')->comment('显示名称');
             $table->string('type', 50)->default('')->comment('菜单类型');
+            $table->string('rule', 50)->default('')->comment('菜单规则');
             $table->string('icon', 50)->default('')->comment('图标');
             $table->string('path')->default('')->comment('路由地址');
             $table->string('component')->default('')->comment('组件');
+            $table->string('link')->default('')->comment('链接');
             $table->integer('sort')->default(0)->comment('排序');
             $table->boolean('keepalive')->default(true)->comment('是否缓存');
             $table->boolean('affix')->default(false)->comment('是否固定标签栏');

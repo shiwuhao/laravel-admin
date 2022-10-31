@@ -19,7 +19,7 @@ class AllController extends Controller
      */
     public function menus(Request $request): AnonymousResourceCollection
     {
-        $menus = Menu::ofSearch($request->all())->oldest('id')->get();
+        $menus = Menu::ofSearch($request->all())->latest('sort')->oldest('id')->get();
 
         return ApiResource::collection($menus);
     }
