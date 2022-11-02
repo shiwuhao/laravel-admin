@@ -22,7 +22,7 @@ class Config extends Model
         'type',
         'component',
         'component_props',
-        'item',
+        'enum',
         'value',
         'validate',
         'sort',
@@ -44,7 +44,7 @@ class Config extends Model
         'group_label',
         'component_label',
         'parse_value',
-//        'parse_extra',
+        'parse_enum',
     ];
 
     /**
@@ -132,10 +132,25 @@ class Config extends Model
         );
     }
 
+    /**
+     * parse_value
+     * @return Attribute
+     */
     public function parseValue(): Attribute
     {
         return new Attribute(
             get: fn() => $this->parseRule($this->type, $this->value),
+        );
+    }
+
+    /**
+     * parse_enum
+     * @return Attribute
+     */
+    public function parseEnum(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->parseRule(self::TYPE_ARRAY, $this->enum),
         );
     }
 
@@ -176,10 +191,10 @@ class Config extends Model
         switch ($type) {
             case self::TYPE_ARRAY: // 数组
                 $array = preg_split('/[,;\r\n]+/', trim($value, ",;\r\n"));
-                if (strpos($value, ':')) {
+                if (strpos($value, '=')) {
                     $parseValue = array();
                     foreach ($array as $k => $val) {
-                        list($value, $label) = explode(':', $val);
+                        list($value, $label) = explode('=', $val);
                         $parseValue[$value] = $label;
                     }
                 } else {

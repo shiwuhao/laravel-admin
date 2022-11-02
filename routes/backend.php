@@ -45,8 +45,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // rbac鉴权
     Route::middleware('permission')->group(function () {
-        Route::get('configs/group', [ConfigController::class, 'group']);
-        Route::put('configs/group', [ConfigController::class, 'groupUpdate']);
+        Route::get('configs/groups', [ConfigController::class, 'group']);
+        Route::put('configs/groups', [ConfigController::class, 'groupUpdate']);
         Route::apiResource('configs', ConfigController::class);
 
         Route::apiResource('users', UserController::class);

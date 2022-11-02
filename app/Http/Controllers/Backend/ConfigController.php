@@ -94,7 +94,7 @@ class ConfigController extends Controller
      * @param Request $request
      * @return ApiResource
      */
-    public function groupUpdate(Request $request): ApiResource
+    public function groupUpdate(Request $request)
     {
         foreach ($request->all() as $name => $value) {
             Config::where('name', $name)->update(['value' => $value]);

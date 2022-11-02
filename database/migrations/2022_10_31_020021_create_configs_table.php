@@ -19,8 +19,8 @@ return new class extends Migration {
             $table->string('group', 50)->default('')->comment('分组');
             $table->string('type', 50)->default('')->comment('类型');
             $table->string('component', 50)->default('')->comment('渲染组件');
-            $table->string('component_props')->default('')->comment('渲染组件props参数');;
-            $table->string('item')->default('')->comment('配置项');
+            $table->string('component_props')->default('')->comment('渲染组件props参数');
+            $table->string('enum')->default('')->comment('枚举项');
             $table->string('value')->default('')->comment('配置值');
             $table->string('validate')->default('')->comment('验证规则');
             $table->unsignedInteger('sort')->default(0)->comment('排序');
