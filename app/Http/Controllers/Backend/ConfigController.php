@@ -6,9 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ApiResource;
 use App\Models\Config;
 use App\Models\Menu;
-use App\Models\Permission;
-use App\Models\Role;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Cache;
@@ -43,7 +40,7 @@ class ConfigController extends Controller
      * @param Config $config
      * @return ApiResource
      */
-    public function show(Config $config): ApiResource
+    public function show(Config $config)
     {
         return ApiResource::make($config);
     }

@@ -18,12 +18,12 @@ class Config extends Model
     protected $fillable = [
         'name',
         'label',
+        'value',
         'group',
         'type',
         'component',
-        'component_props',
-        'enum',
-        'value',
+        'props',
+        'extra',
         'validate',
         'sort',
     ];
@@ -42,9 +42,10 @@ class Config extends Model
     protected $appends = [
         'type_label',
         'group_label',
-        'component_label',
         'parse_value',
-        'parse_enum',
+        'parse_extra',
+        'parse_props',
+        'group_value'
     ];
 
     /**
@@ -122,13 +123,13 @@ class Config extends Model
     }
 
     /**
-     * component_label
+     * parse_value
      * @return Attribute
      */
-    public function componentLabel(): Attribute
+    public function groupValue(): Attribute
     {
         return new Attribute(
-            get: fn() => self::COMPONENT_LABEL[$this->component] ?? '--',
+            get: fn() => !empty($this->parse_props['multiple']) ? json_decode($this->value) : $this->value,
         );
     }
 
@@ -144,13 +145,24 @@ class Config extends Model
     }
 
     /**
-     * parse_enum
+     * parse_extra
      * @return Attribute
      */
-    public function parseEnum(): Attribute
+    public function parseExtra(): Attribute
     {
         return new Attribute(
-            get: fn() => $this->parseRule(self::TYPE_ARRAY, $this->enum),
+            get: fn() => $this->parseRule(self::TYPE_ARRAY, $this->extra),
+        );
+    }
+
+    /**
+     * parse_extra
+     * @return Attribute
+     */
+    public function parseProps(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->parseRule(self::TYPE_ARRAY, $this->props),
         );
     }
 
@@ -184,21 +196,23 @@ class Config extends Model
     /**
      * @param $type
      * @param $value
-     * @return array|false|string[]
+     * @return array|bool|string|null
      */
-    protected function parseRule($type, $value): array|bool
+    protected function parseRule($type, $value): array|bool|string|null
     {
+        if (empty($value)) return $value;
+
         switch ($type) {
             case self::TYPE_ARRAY: // 数组
-                $array = preg_split('/[,;\r\n]+/', trim($value, ",;\r\n"));
                 if (strpos($value, '=')) {
+                    $array = preg_split('/[,;\r\n]+/', trim($value, ",;\r\n"));
                     $parseValue = array();
                     foreach ($array as $k => $val) {
                         list($value, $label) = explode('=', $val);
                         $parseValue[$value] = $label;
                     }
                 } else {
-                    $parseValue = $array;
+                    $parseValue = json_decode($value);
                 }
                 break;
             default:
