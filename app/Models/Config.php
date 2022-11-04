@@ -8,6 +8,47 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * App\Models\Config
+ *
+ * @property int $id
+ * @property string $name 配置标识
+ * @property string $label 配置名称
+ * @property string $group 分组
+ * @property string $type 类型
+ * @property string $component 渲染组件
+ * @property string $props 渲染组件props参数
+ * @property string $extra 枚举项
+ * @property string $value 配置值
+ * @property string $validate 验证规则
+ * @property int $sort 排序
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static Builder|Config newModelQuery()
+ * @method static Builder|Config newQuery()
+ * @method static Builder|Config ofGroup(string $group = '')
+ * @method static Builder|Config ofSearch(array $params = [])
+ * @method static \Illuminate\Database\Query\Builder|Config onlyTrashed()
+ * @method static Builder|Config query()
+ * @method static Builder|Config whereComponent($value)
+ * @method static Builder|Config whereCreatedAt($value)
+ * @method static Builder|Config whereDeletedAt($value)
+ * @method static Builder|Config whereExtra($value)
+ * @method static Builder|Config whereGroup($value)
+ * @method static Builder|Config whereId($value)
+ * @method static Builder|Config whereLabel($value)
+ * @method static Builder|Config whereName($value)
+ * @method static Builder|Config whereProps($value)
+ * @method static Builder|Config whereSort($value)
+ * @method static Builder|Config whereType($value)
+ * @method static Builder|Config whereUpdatedAt($value)
+ * @method static Builder|Config whereValidate($value)
+ * @method static Builder|Config whereValue($value)
+ * @method static \Illuminate\Database\Query\Builder|Config withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Config withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Config extends Model
 {
     use HasFactory, SoftDeletes;
@@ -80,24 +121,22 @@ class Config extends Model
     ];
 
     // 组建类型
-    const COMPONENT_INPUT = 'input';
-    const COMPONENT_TEXTAREA = 'textarea';
-    const COMPONENT_SELECT = 'select';
-    const COMPONENT_TIME_PICKER = 'timePicker';
-    const COMPONENT_DATE_PICKER = 'datePicker';
-    const COMPONENT_DATETIME_PICKER = 'dateTimePicker';
-    const COMPONENT_UPLOAD = 'upload';
-    const COMPONENT_COLOR_PICKER = 'colorPicker';
+    const COMPONENT_INPUT = 'Input';
+    const COMPONENT_SELECT = 'Select';
+    const COMPONENT_TIME_PICKER = 'TimePicker';
+    const COMPONENT_DATE_PICKER = 'DatePicker';
+    const COMPONENT_UPLOAD = 'Upload';
+    const COMPONENT_COLOR_PICKER = 'ColorPicker';
+    const COMPONENT_CHECKBOX = 'CheckboxGroup';
 
     const COMPONENT_LABEL = [
-        self::COMPONENT_INPUT => 'Input输入框',
-        self::COMPONENT_TEXTAREA => 'Textarea多行文本域',
-        self::COMPONENT_SELECT => 'Select选择器',
-        self::COMPONENT_TIME_PICKER => 'TimePicker时间选择器',
-        self::COMPONENT_DATE_PICKER => 'DatePicker日期选择器',
-        self::COMPONENT_DATETIME_PICKER => 'DateTimePicker日期时间选择器',
-        self::COMPONENT_UPLOAD => 'Upload上传',
-        self::COMPONENT_COLOR_PICKER => 'ColorPicker颜色选择器',
+        self::COMPONENT_INPUT => '输入框',
+        self::COMPONENT_SELECT => '下拉选择器',
+        self::COMPONENT_TIME_PICKER => '时间选择器',
+        self::COMPONENT_DATE_PICKER => '日期选择器',
+        self::COMPONENT_UPLOAD => '文件上传',
+        self::COMPONENT_COLOR_PICKER => '颜色选择器',
+        self::COMPONENT_CHECKBOX => '多选框',
     ];
 
     /**
@@ -129,7 +168,10 @@ class Config extends Model
     public function groupValue(): Attribute
     {
         return new Attribute(
-            get: fn() => !empty($this->parse_props['multiple']) ? json_decode($this->value) : $this->value,
+            get: function () {
+                $arr = json_decode($this->value);
+                return is_null($arr) ? $this->value : $arr;
+            },
         );
     }
 

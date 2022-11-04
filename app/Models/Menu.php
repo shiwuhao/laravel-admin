@@ -61,6 +61,10 @@ use Shiwuhao\Rbac\Models\Traits\PermissibleTrait;
  * @method static \Illuminate\Database\Query\Builder|Menu withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Menu withoutTrashed()
  * @mixin \Eloquent
+ * @property string $rule 菜单规则
+ * @property string $link 链接
+ * @method static Builder|Menu whereLink($value)
+ * @method static Builder|Menu whereRule($value)
  */
 class Menu extends Model
 {
