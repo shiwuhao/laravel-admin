@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Shiwuhao\Rbac\Models\Permission;
 use Shiwuhao\Rbac\Models\Traits\PermissibleTrait;
 
 /**
@@ -19,14 +21,15 @@ use Shiwuhao\Rbac\Models\Traits\PermissibleTrait;
  * @property string $name 路由别名
  * @property string $label 显示名称
  * @property string $type 菜单类型
+ * @property string $rule 菜单规则
  * @property string $icon 图标
  * @property string $path 路由地址
  * @property string $component 组件
+ * @property string $link 链接
  * @property int $sort 排序
  * @property int $keepalive 是否缓存
  * @property int $affix 是否固定标签栏
  * @property int $hide_menu 隐藏菜单
- * @property \Shiwuhao\Rbac\Models\Permission|null $permission 权限标识
  * @property int $status 状态
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -34,7 +37,7 @@ use Shiwuhao\Rbac\Models\Traits\PermissibleTrait;
  * @property-read \Illuminate\Database\Eloquent\Collection|Menu[] $children
  * @property-read int|null $children_count
  * @property-read string $alias
- * @property-read string $type_label
+ * @property-read Permission|null $permission
  * @method static Builder|Menu newModelQuery()
  * @method static Builder|Menu newQuery()
  * @method static Builder|Menu ofParent()
@@ -50,10 +53,11 @@ use Shiwuhao\Rbac\Models\Traits\PermissibleTrait;
  * @method static Builder|Menu whereId($value)
  * @method static Builder|Menu whereKeepalive($value)
  * @method static Builder|Menu whereLabel($value)
+ * @method static Builder|Menu whereLink($value)
  * @method static Builder|Menu whereName($value)
  * @method static Builder|Menu wherePath($value)
- * @method static Builder|Menu wherePermission($value)
  * @method static Builder|Menu wherePid($value)
+ * @method static Builder|Menu whereRule($value)
  * @method static Builder|Menu whereSort($value)
  * @method static Builder|Menu whereStatus($value)
  * @method static Builder|Menu whereType($value)
@@ -61,10 +65,6 @@ use Shiwuhao\Rbac\Models\Traits\PermissibleTrait;
  * @method static \Illuminate\Database\Query\Builder|Menu withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Menu withoutTrashed()
  * @mixin \Eloquent
- * @property string $rule 菜单规则
- * @property string $link 链接
- * @method static Builder|Menu whereLink($value)
- * @method static Builder|Menu whereRule($value)
  */
 class Menu extends Model
 {
@@ -150,7 +150,7 @@ class Menu extends Model
     public function alias(): Attribute
     {
         return new Attribute(
-            get: $this->name,
+            get: fn() => $this->name,
         );
     }
 
@@ -222,7 +222,6 @@ class Menu extends Model
                 'affix' => (bool)$this->affix,
                 'keepalive' => (bool)$this->keepalive,
                 'hideMenu' => (bool)$this->hide_menu,
-                'permission' => (bool)$this->permission,
             ]
         );
     }

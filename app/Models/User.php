@@ -65,6 +65,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, UserTrait, SoftDeletes;
 
+    protected $perPage = 15;
+
     /**
      * The attributes that are mass assignable.
      *

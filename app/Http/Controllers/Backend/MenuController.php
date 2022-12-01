@@ -56,12 +56,11 @@ class MenuController extends Controller
     }
 
     /**
-     * @param $id
+     * @param Menu $menu
      * @return ApiResource
      */
-    public function destroy($id): ApiResource
+    public function destroy(Menu $menu): ApiResource
     {
-        $menu = Menu::withTrashed()->find($id);
         if (!$menu->trashed()) {
             $menu->delete();
         }
